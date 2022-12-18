@@ -10,4 +10,11 @@ See Project Requirements.docx
 
 Data cleaning & preprocessing is implememnted by Python, in folder `Data Preprocessing`
 
-SQL operations are implemented by C++ and SQL queries(in MYSQL), in folder `Project_Main`
+Visual Studio solution, project, and source code are in `Project_Main/Save_Test`
+
+The export/dump of the MySQL database schema and data are in `Project_Main/Dump`
+
+I created view for shorten the SQL statement length, the detailed SQL statements(create table, insert, views, rules) are in `Project_Main/SQL_queries` for reference.
+
+
+
