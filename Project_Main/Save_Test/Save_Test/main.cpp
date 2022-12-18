@@ -91,21 +91,49 @@ int main()
     if (mysql_real_connect(&myCont, host, user, pswd, table, port, NULL, 0))
     {//Connect to the server by calling mysql_real_connect()   
         cout << "connect succeed!" << endl;
-        char query_rule1[2048];
+        
 
-        sprintf_s(query_rule1, 2048,
-            "SELECT DISTINCT CONCAT(Account_Info.first_name, ' ', Account_Info.last_name) AS 'Name', Account_Info.account_number AS 'Account Number', Transactions.transaction_number AS 'Transaction Number', Transactions.merchant_name AS 'Merchant', Transactions.transaction_amount AS 'Transaction Amount' FROM MAD INNER JOIN Median ON MAD.account_number = Median.account_number AND MAD.merchant_name = Median.merchant_name INNER JOIN Transactions ON MAD.account_number = Transactions.account_number AND MAD.merchant_name = Transactions.merchant_name INNER JOIN Account_Info ON Account_Info.account_number = Transactions.account_number WHERE ABS(Transactions.transaction_amount - MAD.median_absolute_deviation) / MAD.median_absolute_deviation > 10 AND ABS(Transactions.transaction_amount - Median.median) > 10 * MAD.median_absolute_deviation AND Transactions.transaction_amount > 100 ORDER BY Account_Info.account_number, Transactions.transaction_number; "
-        );
+        const char* query_rule1 = R"(
+             SELECT DISTINCT 
+                CONCAT(Account_Info.first_name, ' ', Account_Info.last_name) AS 'Name',
+                Account_Info.account_number AS 'Account Number', 
+                Transactions.transaction_number AS 'Transaction Number', 
+                Transactions.merchant_name AS 'Merchant',
+                Transactions.transaction_amount AS 'Transaction Amount'
+            FROM
+                MAD
+                    INNER JOIN
+	            Median ON MAD.account_number = Median.account_number AND MAD.merchant_name = Median.merchant_name
+                INNER JOIN
+                Transactions ON MAD.account_number = Transactions.account_number AND MAD.merchant_name = Transactions.merchant_name
+                INNER JOIN Account_Info ON Account_Info.account_number = Transactions.account_number
+            WHERE
+                ABS(Transactions.transaction_amount - MAD.median_absolute_deviation) /  MAD.median_absolute_deviation > 10
+                AND ABS(Transactions.transaction_amount - Median.median) > 10 * MAD.median_absolute_deviation
+                AND Transactions.transaction_amount > 100
+            ORDER BY Account_Info.account_number , Transactions.transaction_number;
+            )";
 
-        char query_rule2[2048];
 
-        sprintf_s(query_rule2, 2048,
+        const char* query_rule2 = R"(
+            SELECT 
+                CONCAT(Account_Info.first_name, ' ', Account_Info.last_name) AS 'Name',
+                Account_Info.account_number AS 'Account Number', 
+                Transactions.transaction_number AS 'Transaction Number', 
+                Account_Info.state AS 'Expected Transaction Location', 
+                Transactions.merchant_state AS 'Actual Transaction Location'
+            FROM
+                Account_Info
+                    INNER JOIN
+                Transactions ON Account_Info.account_number = Transactions.account_number
+            WHERE
+                Account_Info.state <> Transactions.merchant_state
+            ORDER BY Account_Info.account_number , Transactions.transaction_number;
 
-            "SELECT CONCAT(Account_Info.first_name, ' ', Account_Info.last_name) AS 'Name', Account_Info.account_number AS 'Account Number', Transactions.transaction_number AS 'Transaction Number', Account_Info.state AS 'Expected Transaction Location', Transactions.merchant_state AS 'Actual Transaction Location' FROM Account_Info INNER JOIN Transactions ON Account_Info.account_number = Transactions.account_number WHERE Account_Info.state <> Transactions.merchant_state ORDER BY Account_Info.account_number, Transactions.transaction_number;"
-        );
+            )";
 
-        query_rule(query_rule1, "E:/rule1.txt", "rule1");
-        query_rule(query_rule2, "E:/rule2.txt", "rule2");
+        query_rule((char*)query_rule1, "E:/rule1.txt", "rule1");
+        query_rule((char*)query_rule2, "E:/rule2.txt", "rule2");
     }
     else
     {
