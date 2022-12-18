@@ -66,6 +66,7 @@ void query_rule(char *query,string filename, string number) {
                     printf("%s\t", sql_row[i]);
                     fout << setw(10) << sql_row[i] << "\t";
                 }
+                printf("\n");
                 fout << endl;
             }
         }
@@ -85,10 +86,10 @@ void query_rule(char *query,string filename, string number) {
 int main()
 {
   
-    mysql_library_init(0, NULL, NULL);//初始化MySQL库  
-    mysql_init(&myCont);//初始化连接处理程序  
+    mysql_library_init(0, NULL, NULL);//Initializing the MySQL Library  
+    mysql_init(&myCont);//Initializing connection handlers   
     if (mysql_real_connect(&myCont, host, user, pswd, table, port, NULL, 0))
-    {//通过调用mysql_real_connect()连接到服务器  
+    {//Connect to the server by calling mysql_real_connect()   
         cout << "connect succeed!" << endl;
         char query_rule1[2048];
 
@@ -110,10 +111,10 @@ int main()
     {
         cout << "connect failed!" << endl;
     }
-    //注意用完数据库要及时回收资源  
-    if (result != NULL) mysql_free_result(result);//释放结果资源  
-    mysql_close(&myCont);//关闭MySQL连接  
-    mysql_library_end();//关闭MySQL库  
+ 
+    if (result != NULL) mysql_free_result(result);//Release results resources  
+    mysql_close(&myCont);//Closing MySQL Connection
+    mysql_library_end();//Closing MySQL Library
 
     return 0;
 }
