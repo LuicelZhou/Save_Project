@@ -1,0 +1,12 @@
+Name	Account Number	Transaction Number	Merchant	Transaction Amount	
+Michael Smith	     11111	        15	KROGER #2 4000 POLK	      2300	
+  John Doe	     22222	        10	  Best Buy	     10000	
+Pugh Blondell	     30808	         2	EFT Santa Fe	    393.25	
+  Jane Doe	     33333	         5	 McDonalds	       525	
+Monica Abel	     33555	        10	  Best Buy	     10000	
+Ruth Green	     37222	         5	 SHELL OIL	       125	
+Joseph Dark	     43991	        23	SHOPRITE MONTGOMERY S1 BRIGHTON	     375.5	
+Artie Venn	     44891	        11	Best Buy Bridgeport	   1755.91	
+Don Fuller	     53111	        23	SHOPRITE MONTGOMERY S1	     375.5	
+Mirasca Sam	     53222	        10	Kohls Ashland	    725.51	
+Tanner Mitchel	     54566	         4	 Starbucks	    100.73	
